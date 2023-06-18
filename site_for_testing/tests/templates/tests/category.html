@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} {{category.name}} {% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;">{{category.name}}</h1>
+    <hr>
+    <ul>
+        {% for test in tests %}
+            <a href="{{ test.get_absolute_url }}">
+                <li>{{ test.name }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+{% endblock %}

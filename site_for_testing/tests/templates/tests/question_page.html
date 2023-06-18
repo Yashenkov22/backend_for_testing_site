@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Вопрос №{{ question.id }}{% endblock %}
+
+{% block content %}
+    <p>{{ question.question }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <ul>
+            {% for answer in question.answers.all %}
+                <li>    
+                    <input type="radio" name="question{{ question.pk }}" value={{ answer.is_correct }}>
+                    <span>{{ answer.answer }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Следующий вопрос">
+    </form>
+{% endblock %}

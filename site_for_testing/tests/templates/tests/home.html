@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+    <h1>Categories</h1>
+    <ul>
+        {% for cat in categories %}
+            <a href="{{ cat.get_absolute_url }}">
+                <li>{{ cat.name }}</li>
+            </a>
+        {% endfor %}
+    </ul>
+{% endblock %}

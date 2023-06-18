@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ test.name }}{% endblock %}
+
+{% block content %}
+    <h1>{{ test.name }}</h1>
+    <p>Добро пожаловать на данный тест</p>
+    <p>Всего вопросов: {{ test.questions.count }}</p>
+    <a href="{% url 'question_page' cat_id=test.category.pk test_id=test.pk quest_id=1 %}">Начать тест</a>
+{% endblock %}

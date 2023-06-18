@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Результаты теста{% endblock %}
+
+{% block content %}
+    <h1>Результаты теста</h1>
+    <p>Все вопросов: {{ test.answers.count }}</p>
+    <p>Правильные ответы: {{ correct }}</p>
+    <p>Неправильные ответы: {{ uncorrect }}</p>
+
+{% endblock %}
