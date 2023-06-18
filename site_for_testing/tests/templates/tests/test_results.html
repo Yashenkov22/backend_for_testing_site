@@ -4,8 +4,9 @@
 
 {% block content %}
     <h1>Результаты теста</h1>
-    <p>Все вопросов: {{ test.answers.count }}</p>
+    <p>Всего вопросов: {{ test.questions.count }}</p>
     <p>Правильные ответы: {{ correct }}</p>
     <p>Неправильные ответы: {{ uncorrect }}</p>
+    <p>Вы прошли тест на {{procents}}%</p>
 
 {% endblock %}
