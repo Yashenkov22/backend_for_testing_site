@@ -8,5 +8,6 @@
     <p>Правильные ответы: {{ correct }}</p>
     <p>Неправильные ответы: {{ uncorrect }}</p>
     <p>Вы прошли тест на {{procents}}%</p>
+    <a href="{{ test.get_absolute_url }}">Пройти тест ешё раз</a>
 
 {% endblock %}

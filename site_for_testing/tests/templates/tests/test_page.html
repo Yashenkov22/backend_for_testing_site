@@ -5,6 +5,9 @@
 {% block content %}
     <h1>{{ test.name }}</h1>
     <p>Добро пожаловать на данный тест</p>
+    {% if done %}
+        <p style="color: rgb(33, 173, 28);">Тест пройден</p>
+    {% endif %}
     <p>Всего вопросов: {{ test.questions.count }}</p>
-    <a href="{% url 'question_page' cat_id=test.category.pk test_id=test.pk quest_id=1 %}">Начать тест</a>
+    <a href="{% url 'question_page' cat_id=cat_id test_id=test.pk quest_id=1 %}">Начать тест</a>
 {% endblock %}

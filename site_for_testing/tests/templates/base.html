@@ -6,6 +6,22 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <header>
+        <nav style="display: flex; justify-content: space-between;">
+            <a href="{% url 'home' %}">На Главную</a>
+            {% if request.user.is_authenticated %}
+                <div>
+                    <span>{{ request.user.username }}</span> | <a href="{% url 'auth_users:logout' %}">Выйти</a>
+                </div>
+            {% else %}
+            <div>
+                <a href="{% url 'auth_users:register' %}">Регистрация</a> | 
+                <a href="{% url 'auth_users:login' %}">Войти</a>
+            </div>
+            {% endif %}
+        </nav>
+        <hr>
+    </header>
     {% block content %}
     {% endblock %}
 </body>

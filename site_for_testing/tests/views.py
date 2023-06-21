@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Category, Test, Question
 from django.http import HttpRequest
+from django.contrib.auth.decorators import login_required
 
 
 def home_page(request):
@@ -16,19 +17,22 @@ def home_page(request):
 
 def category_page(request, cat_id):
     category = Category.objects.get(pk=cat_id)
-    tests = Test.objects.filter(category=category)
+    # tests = Test.objects.filter(category=cat_id).select_related('category')
     context = {
-        'category': category,
-        'tests': tests
+        'category': category
     }
     return render(request,
-                  'tests/category.html',
+                  'tests/category_page.html',
                   context=context)
 
 def test_page(request, cat_id, test_id):
     test = Test.objects.get(pk=test_id)
-    return render(request, 'tests/test_page.html', context={'test': test})
+    done = request.session.get(f'test{test_id}')
+    return render(request, 'tests/test_page.html', context={'test': test,
+                                                            'done': done,
+                                                            'cat_id': cat_id})
 
+@login_required
 def question_page(request: HttpRequest, cat_id, test_id, quest_id):
     if request.method == 'POST':
         answer = request.POST.get(f'question{quest_id}')
@@ -44,6 +48,9 @@ def question_page(request: HttpRequest, cat_id, test_id, quest_id):
             correct = len([ans for ans in answers if ans == 'True'])
             uncorrect = len(answers) - correct
             procents = round(correct / len(answers), 2) * 100
+            if not request.session.get(f'test{test_id}'):
+                request.session[f'test{test_id}'] = True
+
             context = {
                 'test': test,
                 'answers': answers,
