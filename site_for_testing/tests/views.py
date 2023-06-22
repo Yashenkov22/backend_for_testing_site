@@ -36,6 +36,12 @@ def test_page(request, cat_id, test_id):
 def question_page(request: HttpRequest, cat_id, test_id, quest_id):
     if request.method == 'POST':
         answer = request.POST.get(f'question{quest_id}')
+        if not answer:
+            notice = 'Выберите ответ'
+            question = Question.objects.get(pk=quest_id)
+
+            return render(request, 'tests/question_page.html', context={'question': question,
+                                                                        'notice': notice})
         request.session['answers'][f'question{quest_id}'] = answer
         request.session.modified = True
         print(request.session['answers'])
@@ -43,22 +49,8 @@ def question_page(request: HttpRequest, cat_id, test_id, quest_id):
         try:
             question = Question.objects.get(pk=quest_id)
         except ObjectDoesNotExist:
-            test = Test.objects.get(pk=test_id)
-            answers = list(request.session['answers'].values())
-            correct = len([ans for ans in answers if ans == 'True'])
-            uncorrect = len(answers) - correct
-            procents = round(correct / len(answers), 2) * 100
-            if not request.session.get(f'test{test_id}'):
-                request.session[f'test{test_id}'] = True
-
-            context = {
-                'test': test,
-                'answers': answers,
-                'correct': correct,
-                'uncorrect': uncorrect,
-                'procents': procents,
-            }
-            return render(request, 'tests/test_results.html', context=context)
+            return redirect(reverse('test_results', kwargs={'cat_id': cat_id,
+                                                            'test_id': test_id}))
         else:
             return redirect(question.get_absolute_url())
     else:
@@ -67,3 +59,22 @@ def question_page(request: HttpRequest, cat_id, test_id, quest_id):
         print(request.session['answers'])
         question = Question.objects.get(pk=quest_id)
     return render(request, 'tests/question_page.html', context={'question': question})
+
+@login_required
+def test_results(request, cat_id, test_id):
+    test = Test.objects.get(pk=test_id)
+    answers = list(request.session['answers'].values())
+    correct = len([ans for ans in answers if ans == 'True'])
+    uncorrect = len(answers) - correct
+    procents = round(correct / len(answers), 2) * 100
+    if not request.session.get(f'test{test_id}'):
+        request.session[f'test{test_id}'] = True
+
+    context = {
+        'test': test,
+        'answers': answers,
+        'correct': correct,
+        'uncorrect': uncorrect,
+        'procents': procents,
+    }
+    return render(request, 'tests/test_results.html', context=context)

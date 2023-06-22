@@ -4,6 +4,9 @@
 
 {% block content %}
     <p>{{ question.question }}</p>
+    {% if notice %}
+        <p><b>{{ notice }}</b></p>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         <ul>
