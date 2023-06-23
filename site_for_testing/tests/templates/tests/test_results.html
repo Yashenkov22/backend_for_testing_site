@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Результаты теста</h1>
-    <p>Всего вопросов: {{ test.questions.count }}</p>
+    <p>Всего вопросов: {{ user_answers | length }}</p>
     <p>Правильные ответы: {{ correct }}</p>
     <p>Неправильные ответы: {{ uncorrect }}</p>
     <p>Вы прошли тест на {{procents}}%</p>

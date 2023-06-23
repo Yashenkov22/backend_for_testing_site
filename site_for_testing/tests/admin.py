@@ -31,14 +31,13 @@ class BaseAnswerFormSet(BaseInlineFormSet):
 AnswerFormSet = inlineformset_factory(parent_model=Question,
                                       model=Answer,
                                       formset=BaseAnswerFormSet,
-                                      extra = 1,
                                       fields = ('answer', 'is_correct', 'question'))
 
 
 class AnswerInLine(admin.TabularInline):
     model = Answer
     formset = AnswerFormSet
-
+    extra = 1
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):

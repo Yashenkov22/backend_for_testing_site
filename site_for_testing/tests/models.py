@@ -73,4 +73,7 @@ class Answer(models.Model):
     
     class Meta:
         verbose_name = 'Ответ'
-        verbose_name_plural = 'Ответы'  
+        verbose_name_plural = 'Ответы'
+
+    def __str__(self):
+        return f'Вопрос {self.pk}'

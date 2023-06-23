@@ -12,7 +12,7 @@
         <ul>
             {% for answer in question.answers.all %}
                 <li>    
-                    <input type="radio" name="question{{ question.pk }}" value={{ answer.is_correct }}>
+                    <input type="radio" name="question{{ question.pk }}" value={{ answer.answer }}>
                     <span>{{ answer.answer }}</span>
                 </li>
             {% endfor %}
